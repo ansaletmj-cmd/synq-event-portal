@@ -1,0 +1,11 @@
+
+venv/
+__pycache__/
+*.py[cod]
+.env
+.venv/
+instance/
+college_events.db
+*.sqlite
+*.sqlite3
+

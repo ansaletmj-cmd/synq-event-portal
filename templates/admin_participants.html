@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Participants - SYNQ</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .participants-container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .participants-table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .participants-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        .participants-table th,
+        .participants-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .participants-table th {
+            background: #eff6ff;
+        }
+
+        .participants-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">SYNQ</div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_participants') }}">Participants</a>
+            <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main class="participants-container">
+        <a class="back-link"
+           href="{{ url_for('dashboard') }}">
+            ← Back to Admin Dashboard
+        </a>
+
+        <h1>Registered Event Participants</h1>
+        <p>Total registrations: {{ participants|length }}</p>
+
+        {% if participants %}
+            <div class="participants-table-wrapper">
+                <table class="participants-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Event</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Class / Division</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in participants %}
+                            <tr>
+                                <td>{{ p["name"] }}</td>
+                                <td>{{ p["email"] }}</td>
+                                <td>{{ p["phone"] or "-" }}</td>
+                                <td>{{ p["event_title"] }}</td>
+                                <td>{{ p["department"] or "-" }}</td>
+                                <td>{{ p["year_of_study"] or "-" }}</td>
+                                <td>{{ p["class_division"] or "-" }}</td>
+                                <td>{{ p["status"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No event registrations yet.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Denied | SYNQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="access-denied-container">
+        <div class="access-denied-card">
+            <div class="access-denied-icon">🔒</div>
+            <h1>Access Denied</h1>
+            <p>You don't have permission to access this page.</p>
+            <p class="access-denied-note">
+                This area is reserved for SYNQ administrators.
+            </p>
+            <a href="{{ url_for('dashboard') }}" class="access-denied-button">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</body>
+</html>

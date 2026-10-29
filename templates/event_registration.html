@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - SYNQ</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .registration-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 28px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .registration-container h1 {
+            margin-bottom: 8px;
+        }
+
+        .registration-container label {
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .registration-container input,
+        .registration-container select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            box-sizing: border-box;
+        }
+
+        .registration-container button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .registration-error {
+            color: #b91c1c;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">SYNQ</div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Explore Events</a>
+            <a href="{{ url_for('my_events') }}">My Events</a>
+        
+
+
+<a href="{{ url_for('notifications') }}">
+    Notifications 🔔
+    {% set unread_count_badge = unread_notification_count|default(0) %}
+    {% if unread_count_badge > 0 %}
+        <span class="notification-badge">
+            {{ unread_count_badge }}
+        </span>
+    {% endif %}
+</a>
+
+
+
+           <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main class="registration-container">
+        <h1>Event Registration</h1>
+        <p>Registering for: <strong>{{ event["title"] }}</strong></p>
+        <p>Please check your details before submitting.</p>
+
+        {% if error %}
+            <p class="registration-error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST"
+              action="{{ url_for('register_event',
+                                 event_id=event['event_id']) }}">
+
+                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label for="name">Full Name</label>
+            <input id="name" type="text"
+                   value="{{ user['name'] }}" readonly>
+
+            <label for="email">Email Address</label>
+            <input id="email" type="email"
+                   value="{{ user['email'] }}" readonly>
+
+            <label for="phone">Phone Number *</label>
+            <input id="phone" type="tel" name="phone"
+                   placeholder="Enter your phone number"
+                   pattern="[0-9+() -]{7,20}"
+                   maxlength="20" required
+                   value="{{ request.form.get('phone', '') }}">
+
+            <label for="department">Department *</label>
+            <select id="department" name="department" required>
+                <option value="">Select your department</option>
+                {% for dept in ["ECE", "CSE", "EEE", "ME", "CE", "IT", "Other"] %}
+                    <option value="{{ dept }}"
+                        {% if request.form.get('department') == dept %}
+                            selected
+                        {% endif %}>
+                        {{ dept }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="year_of_study">Year of Study *</label>
+            <select id="year_of_study" name="year_of_study" required>
+                <option value="">Select your year</option>
+                {% for year in ["1st Year", "2nd Year", "3rd Year", "4th Year"] %}
+                    <option value="{{ year }}"
+                        {% if request.form.get('year_of_study') == year %}
+                            selected
+                        {% endif %}>
+                        {{ year }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="class_division">Class / Division *</label>
+            <input id="class_division" type="text"
+                   name="class_division"
+                   placeholder="e.g. ECE A"
+                   maxlength="30" required
+                   value="{{ request.form.get('class_division', '') }}">
+
+            <button type="submit">Confirm

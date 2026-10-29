@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event["title"] }} - SYNQ TEST </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .event-details-container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 30px;
+        }
+
+        .event-details-card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .event-details-card h1 {
+            margin-top: 12px;
+            margin-bottom: 15px;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 14px;
+        }
+
+        .event-info {
+            margin: 14px 0;
+            line-height: 1.6;
+        }
+
+        .view-event-btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .view-event-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 22px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .registration-message {
+            margin-top: 20px;
+            padding: 14px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">SYNQ</div>
+
+        <div class="nav-links">
+            {% if session.get("role") == "Admin" %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('dashboard') }}">Explore Events</a>
+                <a href="{{ url_for('my_events') }}">My Events</a>
+
+                <a href="{{ url_for('notifications') }}">
+                    Notifications 🔔
+                    {% set unread_count_badge = unread_notification_count|default(0) %}
+                    {% if unread_count_badge > 0 %}
+                        <span class="notification-badge">
+                            {{ unread_count_badge }}
+                        </span>
+                    {% endif %}
+                </a>
+            {% endif %}
+
+            <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main class="event-details-container">
+        <article class="event-details-card">
+
+            <span class="event-category">
+                {{ event["category"] or "Campus Event" }}
+            </span>
+
+            <h1>{{ event["title"] }}</h1>
+
+            <p class="event-info">
+                {{ event["description"] or "More details coming soon." }}
+            </p>
+
+            <p class="event-info">
+                <strong>📍 Venue:</strong>
+                {{ event["venue"] }}
+            </p>
+
+            <p class="event-info">
+                <strong>📅 Date:</strong>
+                {{ event["date"] }}
+            </p>
+
+            {% if session.get("role") == "Student" %}
+
+                {% if registration %}
+                    <div class="registration-message">
+                        ✅ You are already registered for this event!
+                    </div>
+
+                    <a class="view-event-btn"
+                       href="{{ url_for('my_events') }}">
+                        View My Events →
+                    </a>
+
+                {% else %}
+                  <a class="view-event-btn"
+   href="{{ url_for('register_event', event_id=event['event_id']) }}">
+    Register for Event →
+</a>
+ </button>
+</form>
+                {% endif %}
+
+            {% elif session.get("role") == "Admin" %}
+                <p>Admin view — student registration is disabled.</p>
+            {% endif %}
+
+            <br>
+
+            {% if session.get("role") == "Admin" %}
+                <a class="back-link"
+                   href="{{ url_for('dashboard') }}">
+                    ← Back to Dashboard
+                </a>
+            {% else %}
+                <a class="back-link"
+                   href="{{ url_for('dashboard') }}">
+                    ← Back to Explore Events
+                </a>
+            {% endif %}
+
+        </article>
+    </main>
+</body>
+</html>

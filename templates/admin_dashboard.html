@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNQ | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Times New Roman", serif;
+            background: #f7f2ff;
+            color: #302044;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100px;
+            padding: 10px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(70, 43, 105, 0.07);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            min-width: 0;
+        }
+
+        .brand img {
+            display: block;
+            width: 210px;
+            height: 78px;
+            max-width: 100%;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        .brand-fallback {
+            color: #6941a5;
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .admin-label {
+            color: #80699d;
+            font-size: 17px;
+            border-left: 1px solid #ded1f0;
+            padding: 8px 0 8px 14px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 26px;
+        }
+
+        .nav-links a {
+            color: #493361;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8a5bc5;
+        }
+
+        .nav-links .logout-link {
+            padding: 10px 18px;
+            border: 1px solid #e3d5f5;
+            border-radius: 10px;
+        }
+
+        .nav-links .logout-link:hover {
+            background: #f0e7ff;
+        }
+
+        .admin-container {
+            width: min(1400px, 92%);
+            margin: 0 auto;
+            padding: 45px 0 60px;
+        }
+
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            color: #8a65b7;
+            font-size: 15px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .welcome-section h1 {
+            margin: 0 0 12px;
+            color: #38234f;
+            font-size: clamp(32px, 4vw, 46px);
+            line-height: 1.15;
+        }
+
+        .welcome-section p {
+            margin: 0;
+            color: #847493;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .overview {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin: 30px 0 48px;
+        }
+
+        .overview-card {
+            position: relative;
+            overflow: hidden;
+            min-width: 0;
+            background: #fff;
+            padding: 28px 30px;
+            border: 1px solid #eee5f8;
+            border-radius: 20px;
+            box-shadow: 0 8px 28px rgba(76, 49, 105, 0.07);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 13px 32px rgba(76, 49, 105, 0.11);
+        }
+
+        .overview-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #a88bd3;
+        }
+
+        .overview-card h3 {
+            margin: 0 0 18px;
+            color: #746382;
+            font-size: 21px;
+            font-weight: normal;
+        }
+
+        .overview-card p {
+            margin: 0;
+            color: #6842a1;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .stat-caption {
+            margin-top: 10px;
+            color: #a193b1;
+            font-size: 15px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            color: #38234f;
+            font-size: 30px;
+        }
+
+        .section-subtitle {
+            margin: 7px 0 0;
+            color: #897a98;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .add-event-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 22px;
+            background: #7046ad;
+            color: #fff;
+            text-decoration: none;
+            font-size: 17px;
+            border-radius: 12px;
+            box-shadow: 0 5px 14px rgba(112, 70, 173, 0.18);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .add-event-btn:hover {
+            background: #59338e;
+            transform: translateY(-2px);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .event-card {
+            min-width: 0;
+            padding: 26px;
+            background: #fff;
+            border: 1px solid #ece1f8;
+            border-radius: 18px;
+            box-shadow: 0 6px 22px rgba(76, 49, 105, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(76, 49, 105, 0.1);
+        }
+
+        .event-tag {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 6px 11px;
+            background: #f0e8ff;
+            color: #7651a5;
+            font-size: 13px;
+            border-radius: 20px;
+        }
+
+        .event-card h3 {
+            margin: 0 0 20px;
+            color: #6440a0;
+            font-size: 25px;
+            overflow-wrap: anywhere;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 13px 0;
+            color: #74677f;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-label {
+            min-width: 78px;
+            color: #4c3a61;
+            font-weight: bold;
+        }
+
+        .admin-event-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .edit-event-btn,
+        .delete-event-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .edit-event-btn {
+            background: #eee5fc;
+            color: #68419a;
+            border: 1px solid #d9c7f3;
+        }
+
+        .edit-event-btn:hover {
+            background: #dfd0f5;
+        }
+
+        .delete-event-form {
+            margin: 0;
+        }
+
+        .delete-event-btn {
+            background: #fbe8eb;
+            color: #a53d55;
+            border: 1px solid #f0c5ce;
+        }
+
+        .delete-event-btn:hover {
+            background: #f5d5dc;
+        }
+
+        .empty-message {
+            padding: 42px 24px;
+            background: #fff;
+            color: #796b87;
+            text-align: center;
+            border: 1px dashed #d7c3ed;
+            border-radius: 18px;
+            font-size: 18px;
+        }
+
+        .empty-icon {
+            display: block;
+            margin-bottom: 12px;
+            color: #916bc1;
+            font-size: 32px;
+        }
+
+        .empty-message p {
+            margin-bottom: 0;
+        }
+
+        .admin-footer {
+            padding: 22px 15px;
+            color: #9584a7;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* CUSTOM SYNQ DELETE POPUP */
+
+        .delete-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(35, 20, 52, 0.58);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .delete-modal.show {
+            display: flex;
+        }
+
+        .delete-modal-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border: 1px solid #e4d7f5;
+            border-radius: 22px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(35, 20, 52, 0.25);
+            animation: modalAppear 0.2s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .delete-modal-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: #fbe8eb;
+            border-radius: 50%;
+            font-size: 30px;
+        }
+
+        .delete-modal-card h2 {
+            margin: 0 0 12px;
+            color: #392354;
+            font-size: 27px;
+        }
+
+        .delete-modal-card p {
+            color: #79678f;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 24px;
+        }
+
+        .delete-modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .delete-modal-actions button {
+            flex: 1;
+            padding: 12px 10px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-cancel-btn {
+            background: #eee5fc;
+            color: #68419a;
+        }
+
+        .modal-cancel-btn:hover {
+            background: #dfd0f5;
+        }
+
+        .modal-delete-btn {
+            background: #a53d55;
+            color: #fff;
+        }
+
+        .modal-delete-btn:hover {
+            background: #873047;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 14px 4%;
+            }
+
+            .brand img {
+                width: 180px;
+                height: 68px;
+            }
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .events-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                justify-content: center;
+                gap: 12px;
+                padding: 14px 5%;
+            }
+
+            .brand {
+                justify-content: center;
+            }
+
+            .brand img {
+                width: 165px;
+                height: 62px;
+            }
+
+            .admin-label {
+                font-size: 15px;
+                padding-left: 10px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+            }
+
+            .nav-links .logout-link {
+                padding: 8px 12px;
+            }
+
+            .admin-container {
+                width: 90%;
+                padding-top: 32px;
+            }
+
+            .eyebrow {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .welcome-section h1 {
+                font-size: 33px;
+            }
+
+            .welcome-section p {
+                font-size: 17px;
+            }
+
+            .overview {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                margin-bottom: 36px;
+            }
+
+            .overview-card {
+                padding: 23px;
+            }
+
+            .overview-card p {
+                font-size: 36px;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+            .section-heading h2 {
+                font-size: 26px;
+            }
+
+            .add-event-btn {
+                padding: 12px 16px;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card {
+                padding: 23px;
+            }
+
+            .delete-modal-card {
+                padding: 24px 20px;
+            }
+
+            .delete-modal-actions {
+                flex-direction: column-reverse;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SYNQ NAVIGATION -->
+    <nav class="navbar">
+        <a class="brand" href="{{ url_for('dashboard') }}">
+            <img
+                src="{{ url_for('static', filename='synq-logo.png') }}"
+                alt="SYNQ logo"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+            >
+            <span class="brand-fallback" style="display:none;">SYNQ</span>
+            <span class="admin-label">Admin</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin_participants') }}">Participants</a>
+           <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout ↗</button>
+</form>
+        </div>
+    </nav>
+
+    <!-- ADMIN DASHBOARD -->
+    <main class="admin-container">
+
+        <header class="welcome-section">
+            <div class="eyebrow">SYNQ · Administration</div>
+            <h1>Welcome, {{ user_name }}!</h1>
+            <p>Bring your campus events together, all in one place.</p>
+        </header>
+
+        <!-- STATISTICS -->
+        <section class="overview">
+            <article class="overview-card">
+                <h3>Total Events</h3>
+                <p>{{ total_events }}</p>
+                <div class="stat-caption">Events on your campus</div>
+            </article>
+
+            <article class="overview-card">
+                <h3>Total Registrations</h3>
+                <p>{{ total_registrations }}</p>
+                <div class="stat-caption">Registrations across events</div>
+            </article>
+        </section>
+
+        <!-- EVENT MANAGEMENT -->
+        <section class="manage-events">
+            <div class="section-heading">
+                <div>
+                    <h2>Manage Events</h2>
+                    <p class="section-subtitle">
+                        Keep track of what's happening on campus.
+                    </p>
+                </div>
+
+                <a class="add-event-btn" href="{{ url_for('create_event') }}">
+                    <span>＋</span> Add Event
+                </a>
+            </div>
+
+            {% if events %}
+                <div class="events-grid">
+
+                    {% for event in events %}
+                        <article class="event-card">
+
+                            <span class="event-tag">Campus Event</span>
+
+                            <h3>{{ event["title"] }}</h3>
+
+                            <div class="event-detail">
+                                <span class="detail-label">Venue</span>
+                                <span>{{ event["venue"] }}</span>
+                            </div>
+
+                            <div class="event-detail">
+                                <span class="detail-label">Date</span>
+                                <span>{{ event["date"] }}</span>
+                            </div>
+
+                            <div class="event-detail">
+                                <span class="detail-label">Capacity</span>
+                                <span>{{ event["capacity"] }}</span>
+                            </div>
+
+                            <div class="admin-event-actions">
+
+                                <a
+                                    class="edit-event-btn"
+                                    href="{{ url_for('edit_event', event_id=event['event_id']) }}"
+                                >
+                                    ✏️ Edit Event
+                                </a>
+
+                                <form
+                                    class="delete-event-form"
+                                    action="{{ url_for('delete_event', event_id=event['event_id']) }}"
+                                    method="POST"
+                                >
+                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button
+                                        type="submit"
+                                        class="delete-event-btn"
+                                    >
+                                        🗑️ Delete Event
+                                    </button>
+                                </form>
+
+                            </div>
+                        </article>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <div class="empty-message">
+                    <span class="empty-icon">✦</span>
+                    <strong>No events yet</strong>
+                    <p>Create your first event to get started!</p>
+                </div>
+            {% endif %}
+        </section>
+
+    </main>
+
+    <!-- CUSTOM DELETE CONFIRMATION MODAL -->
+    <div
+        id="deleteModal"
+        class="delete-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="deleteModalTitle"
+        aria-describedby="deleteModalDescription"
+    >
+        <div class="delete-modal-card">
+
+            <div class="delete-modal-icon">🗑️</div>
+
+            <h2 id="deleteModalTitle">Delete this event?</h2>
+
+            <p id="deleteModalDescription">
+                This action cannot be undone. The event's registrations
+                and notifications will also be deleted.
+            </p>
+
+            <div class="delete-modal-actions">
+                <button
+                    type="button"
+                    id="cancelDelete"
+                    class="modal-cancel-btn"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    id="confirmDelete"
+                    class="modal-delete-btn"
+                >
+                    Delete Event
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="admin-footer">
+        SYNQ · Your Events. In Sync.
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("deleteModal");
+            const cancelButton = document.getElementById("cancelDelete");
+            const confirmButton = document.getElementById("confirmDelete");
+
+            let selectedForm = null;
+
+            // Open the custom modal when an event's Delete button is clicked.
+            document.querySelectorAll(".delete-event-form").forEach(function (form) {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    selectedForm = form;
+                    modal.classList.add("show");
+                    cancelButton.focus();
+                });
+            });
+
+            // Cancel deletion.
+            cancelButton.addEventListener("click", function () {
+                modal.classList.remove("show");
+                selectedForm = null;
+            });
+
+            // Actually submit the selected form only after confirmation.
+            confirmButton.addEventListener("click", function () {
+                if (selectedForm) {
+                    const formToSubmit = selectedForm;
+
+                    selectedForm = null;
+                    modal.classList.remove("show");
+
+                    HTMLFormElement.prototype.submit.call(formToSubmit);
+                }
+            });
+
+            // Clicking the dark background closes the modal.
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    modal.classList.remove("show");
+                    selectedForm = null;
+                }
+            });
+
+            // Escape closes the modal without deleting anything.
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && modal.classList.contains("show")) {
+                    modal.classList.remove("show");
+                    selectedForm = null;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

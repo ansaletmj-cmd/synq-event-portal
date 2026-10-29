@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events | SYNQ</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .my-events-container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .my-events-container h1 {
+            color: #392354;
+        }
+
+        .my-events-container > p {
+            color: #79678f;
+            line-height: 1.6;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .event-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(76, 49, 105, 0.08);
+            border: 1px solid #e5d9f3;
+        }
+
+        .event-card h3 {
+            margin-top: 0;
+            color: #6440a0;
+            overflow-wrap: anywhere;
+        }
+
+        .event-card p {
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            color: #74677f;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .event-link,
+        .cancel-registration-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .event-link {
+            background: #7046ad;
+            color: white;
+            border: none;
+        }
+
+        .event-link:hover {
+            background: #59338e;
+        }
+
+        .cancel-registration-btn {
+            background: #fbe8eb;
+            color: #a53d55;
+            border: 1px solid #f0c5ce;
+        }
+
+        .cancel-registration-btn:hover {
+            background: #f5d5dc;
+        }
+
+        .empty-message {
+            margin-top: 30px;
+            padding: 25px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px dashed #d7c3ed;
+            border-radius: 16px;
+            color: #796b87;
+        }
+
+        .notification-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            margin-left: 4px;
+            border-radius: 50px;
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* SYNQ cancellation confirmation popup */
+        .cancel-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(35, 20, 52, 0.58);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .cancel-modal.show {
+            display: flex;
+        }
+
+        .cancel-modal-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            background: #ffffff;
+            border: 1px solid #e4d7f5;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(35, 20, 52, 0.25);
+        }
+
+        .cancel-modal-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 16px;
+            background: #fbe8eb;
+            border-radius: 50%;
+            font-size: 28px;
+        }
+
+        .cancel-modal-card h2 {
+            margin: 0 0 12px;
+            color: #392354;
+        }
+
+        .cancel-modal-card p {
+            color: #79678f;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .cancel-modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .cancel-modal-actions button {
+            flex: 1;
+            padding: 12px 10px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .keep-event-btn {
+            background: #eee5fc;
+            color: #68419a;
+        }
+
+        .confirm-cancel-btn {
+            background: #a53d55;
+            color: #ffffff;
+        }
+
+        .keep-event-btn:hover {
+            background: #dfd0f5;
+        }
+
+        .confirm-cancel-btn:hover {
+            background: #873047;
+        }
+
+        @media (max-width: 600px) {
+            .my-events-container {
+                margin: 20px auto;
+                padding: 16px;
+            }
+
+            .cancel-modal-card {
+                padding: 24px 20px;
+            }
+
+            .cancel-modal-actions {
+                flex-direction: column-reverse;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SYNQ</div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Home</a>
+            <a href="{{ url_for('my_events') }}">My Events</a>
+
+            <a href="{{ url_for('notifications') }}">
+                Notifications 🔔
+                {% set unread_count_badge = unread_notification_count|default(0) %}
+                {% if unread_count_badge > 0 %}
+                    <span class="notification-badge">
+                        {{ unread_count_badge }}
+                    </span>
+                {% endif %}
+            </a>
+
+           <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main class="my-events-container">
+
+        <h1>My Registered Events</h1>
+
+        <p>
+            Welcome, {{ user_name|default('Student') }}!
+            Here you can view the events you have registered for.
+        </p>
+
+        {% if events %}
+            <div class="events-grid">
+
+                {% for event in events %}
+                    <article class="event-card">
+
+                        <h3>{{ event['title'] }}</h3>
+
+                        {% if event['category'] %}
+                            <p>
+                                <strong>Category:</strong>
+                                {{ event['category'] }}
+                            </p>
+                        {% endif %}
+
+                        <p>
+                            <strong>Description:</strong>
+                            {{ event['description'] or 'No description provided.' }}
+                        </p>
+
+                        <p>
+                            <strong>Venue:</strong>
+                            {{ event['venue'] }}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            {{ event['date'] }}
+                        </p>
+
+                        <p>
+                            <strong>Registration Status:</strong>
+                            <span class="status">
+                                {{ event['status']|default('Confirmed') }}
+                            </span>
+                        </p>
+
+                        <a
+                            class="event-link"
+                            href="{{ url_for('event_details', event_id=event['event_id']) }}"
+                        >
+                            View Event Details
+                        </a>
+
+                        <form
+                            class="cancel-registration-form"
+                            action="{{ url_for('cancel_registration', event_id=event['event_id']) }}"
+                            method="POST"
+                        >
+                          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                            <button
+                                type="submit"
+                                class="cancel-registration-btn"
+                                data-event-title="{{ event['title'] }}"
+                            >
+                                Cancel Registration
+                            </button>
+                        </form>
+
+                    </article>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="empty-message">
+                <h3>No Registered Events Yet</h3>
+                <p>You haven't registered for any events yet.</p>
+
+                <a class="event-link" href="{{ url_for('dashboard') }}">
+                    Explore Events
+                </a>
+            </div>
+        {% endif %}
+
+    </main>
+
+    <!-- Custom cancellation confirmation popup -->
+    <div
+        id="cancelModal"
+        class="cancel-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cancelModalTitle"
+    >
+        <div class="cancel-modal-card">
+
+            <div class="cancel-modal-icon">⚠️</div>
+
+            <h2 id="cancelModalTitle">Cancel Registration?</h2>
+
+            <p id="cancelModalMessage">
+                Are you sure you want to cancel your registration?
+            </p>
+
+            <div class="cancel-modal-actions">
+                <button
+                    type="button"
+                    id="keepEventBtn"
+                    class="keep-event-btn"
+                >
+                    Keep Registration
+                </button>
+
+                <button
+                    type="button"
+                    id="confirmCancelBtn"
+                    class="confirm-cancel-btn"
+                >
+                    Yes, Cancel
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("cancelModal");
+            const message = document.getElementById("cancelModalMessage");
+            const keepButton = document.getElementById("keepEventBtn");
+            const confirmButton = document.getElementById("confirmCancelBtn");
+
+            let selectedForm = null;
+
+            document.querySelectorAll(".cancel-registration-form").forEach(function (form) {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    selectedForm = form;
+
+                    const button = form.querySelector("button");
+                    const eventTitle = button.dataset.eventTitle;
+
+                    message.textContent =
+                        'Are you sure you want to cancel your registration for "' +
+                        eventTitle +
+                        '"?';
+
+                    modal.classList.add("show");
+                    keepButton.focus();
+                });
+            });
+
+            keepButton.addEventListener("click", function () {
+                modal.classList.remove("show");
+                selectedForm = null;
+            });
+
+            confirmButton.addEventListener("click", function () {
+                if (selectedForm) {
+                    const formToSubmit = selectedForm;
+
+                    selectedForm = null;
+                    modal.classList.remove("show");
+
+                    HTMLFormElement.prototype.submit.call(formToSubmit);
+                }
+            });
+
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    modal.classList.remove("show");
+                    selectedForm = null;
+                }
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && modal.classList.contains("show")) {
+                    modal.classList.remove("show");
+                    selectedForm = null;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

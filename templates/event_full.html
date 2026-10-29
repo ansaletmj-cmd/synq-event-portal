@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Full | SYNQ</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #f5f0ff;
+            font-family: "Times New Roman", serif;
+            color: #302342;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            padding: 42px 30px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e7dcf7;
+            border-radius: 24px;
+            box-shadow: 0 14px 40px rgba(80, 47, 120, 0.10);
+        }
+
+        .icon {
+            width: 82px;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: #f0e6ff;
+            color: #7041a6;
+            font-size: 42px;
+        }
+
+        .brand {
+            color: #7041a6;
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin: 0 0 14px;
+        }
+
+        p {
+            color: #756b82;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .event-name {
+            color: #7041a6;
+            font-weight: bold;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
+            margin-top: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .primary {
+            background: #7041a6;
+            color: white;
+        }
+
+        .secondary {
+            background: #f1eafa;
+            color: #7041a6;
+        }
+
+        .button:hover {
+            opacity: 0.88;
+        }
+
+        .tagline {
+            margin-top: 28px;
+            font-size: 13px;
+            color: #a095b0;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card">
+        <div class="brand">SYNQ</div>
+
+        <div class="icon">!</div>
+
+        <h1>This Event Is Full</h1>
+
+        <p>
+            Looks like all the spots are taken for
+            <span class="event-name">{{ event_title }}</span>.
+            Don't worry — there are more experiences waiting for you!
+        </p>
+
+        <a href="{{ url_for('dashboard') }}" class="button primary">
+            Explore Other Events
+        </a>
+
+        <a href="{{ url_for('my_events') }}" class="button secondary">
+            View My Events
+        </a>
+
+        <div class="tagline">Your Events. In Sync.</div>
+    </main>
+</body>
+</html>

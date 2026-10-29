@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - SYNQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SYNQ</div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Home</a>
+            <a href="{{ url_for('my_events') }}">My Events</a>
+            <a href="{{ url_for('notifications') }}">
+                Notifications 🔔
+                {% if unread_count > 0 %}
+                    <span class="notification-badge">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+            <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Notifications 🔔</h1>
+        <p>Stay updated with your campus activities.</p>
+
+        {% if unread_count > 0 %}
+            <p><strong>{{ unread_count }} unread notification(s)</strong></p>
+        {% else %}
+            <p>You're all caught up!</p>
+        {% endif %}
+
+        <br>
+
+        {% for notification in notifications %}
+            <div class="event-card {% if notification['is_read'] == 0 %}notification-unread{% endif %}">
+
+                <h3>
+                    🔔 Campus Update
+                    {% if notification['is_read'] == 0 %}
+                        <span class="notification-unread-label">NEW</span>
+                    {% else %}
+                        <span class="notification-read-label">Read</span>
+                    {% endif %}
+                </h3>
+
+                <p>{{ notification["message"] }}</p>
+                <p>📅 {{ notification["created_at"] }}</p>
+
+            </div>
+            <br>
+        {% else %}
+            <p>You don't have any notifications yet.</p>
+        {% endfor %}
+
+    </main>
+
+</body>
+</html>

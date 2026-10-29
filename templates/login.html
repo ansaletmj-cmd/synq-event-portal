@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SYNQ</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Times New Roman", Times, serif;
+            background:
+                radial-gradient(circle at 8% 12%, #e5d5fb 0, transparent 28%),
+                radial-gradient(circle at 94% 90%, #e8ddfa 0, transparent 30%),
+                #f8f5ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 35px;
+            color: #392451;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1120px;
+            min-height: 620px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid #e8def6;
+            border-radius: 28px;
+            box-shadow: 0 24px 70px rgba(77, 48, 112, 0.12);
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            overflow: hidden;
+        }
+
+        /* LEFT SIDE — LOGIN FORM */
+
+        .login-panel {
+            padding: 48px 58px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            margin-bottom: 38px;
+        }
+
+        .brand img {
+            width: 220px;
+            max-width: 100%;
+            height: 100px;
+            object-fit: contain;
+            object-position: left center;
+            display: block;
+        }
+
+        .login-panel h1 {
+            font-size: 39px;
+            line-height: 1.15;
+            margin: 0 0 12px;
+            color: #392451;
+        }
+
+        .intro {
+            color: #887997;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0 0 30px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 9px;
+            color: #49345f;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 49px;
+            border: 1px solid #e0d4ef;
+            border-radius: 10px;
+            background: #fcfaff;
+            padding: 0 15px;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 17px;
+            color: #392451;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #9871c5;
+            box-shadow: 0 0 0 3px rgba(152, 113, 197, 0.13);
+        }
+
+        .login-button {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            background: #704ba3;
+            color: white;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 19px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .login-button:hover {
+            background: #573580;
+            transform: translateY(-1px);
+        }
+
+        .register-link {
+            margin: 25px 0 0;
+            color: #887997;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .register-link a {
+            color: #704ba3;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            color: #a091b0;
+            font-size: 14px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* RIGHT SIDE — LILAC VISUAL */
+
+        .visual-panel {
+            position: relative;
+            margin: 15px;
+            border-radius: 22px;
+            overflow: hidden;
+            background: linear-gradient(
+                145deg,
+                #eee4fc,
+                #e4d5f8 55%,
+                #f6f0ff
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 38px;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.42);
+        }
+
+        .orb-one {
+            width: 250px;
+            height: 250px;
+            top: -85px;
+            right: -65px;
+        }
+
+        .orb-two {
+            width: 180px;
+            height: 180px;
+            bottom: -65px;
+            left: -45px;
+            background: rgba(193, 163, 230, 0.25);
+        }
+
+        .visual-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .visual-heading {
+            font-size: 32px;
+            line-height: 1.25;
+            margin: 0 0 12px;
+            color: #493064;
+        }
+
+        .visual-description {
+            color: #806c98;
+            font-size: 17px;
+            line-height: 1.6;
+            max-width: 330px;
+            margin: 0 auto 35px;
+        }
+
+        .illustration {
+            min-height: 285px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-window {
+            width: 90%;
+            max-width: 350px;
+            padding: 23px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 18px 35px rgba(90, 59, 127, 0.13);
+            transform: rotate(-2deg);
+        }
+
+        .window-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+        }
+
+        .window-title {
+            font-size: 19px;
+            font-weight: bold;
+            color: #493064;
+        }
+
+        .window-dots {
+            color: #ad91d0;
+            letter-spacing: 3px;
+        }
+
+        .event-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: #faf7ff;
+            border: 1px solid #eee5fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .event-icon {
+            flex-shrink: 0;
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: #e9ddfa;
+            font-size: 22px;
+        }
+
+        .event-icon.pink {
+            background: #f8e2f0;
+        }
+
+        .event-icon.blue {
+            background: #e2e9fc;
+        }
+
+        .event-name {
+            font-size: 16px;
+            color: #493064;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .event-meta {
+            color: #9584a7;
+            font-size: 13px;
+        }
+
+        .floating-note {
+            position: absolute;
+            right: -4px;
+            bottom: 5px;
+            background: white;
+            border: 1px solid #eee4f8;
+            border-radius: 13px;
+            padding: 13px 17px;
+            box-shadow: 0 10px 25px rgba(90, 59, 127, 0.12);
+            color: #67488d;
+            font-size: 15px;
+            transform: rotate(3deg);
+        }
+
+        .visual-footer {
+            color: #8c76a5;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+
+        /* TABLET AND MOBILE */
+
+        @media (max-width: 850px) {
+            body {
+                padding: 20px;
+            }
+
+            .login-container {
+                max-width: 520px;
+                grid-template-columns: 1fr;
+            }
+
+            .login-panel {
+                padding: 38px 35px;
+            }
+
+            .brand {
+                margin-bottom: 25px;
+            }
+
+            .brand img {
+                width: 200px;
+                height: 90px;
+            }
+
+            .visual-panel {
+                min-height: 490px;
+                margin: 0 12px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .login-panel {
+                padding: 28px 23px;
+            }
+
+            .login-panel h1 {
+                font-size: 33px;
+            }
+
+            .brand img {
+                width: 200px;
+                height: 90px;
+            }
+
+            .visual-panel {
+                padding: 25px 12px;
+                min-height: 450px;
+            }
+
+            .visual-heading {
+                font-size: 27px;
+            }
+
+            .illustration {
+                min-height: 260px;
+            }
+
+            .event-window {
+                padding: 16px;
+            }
+
+            .floating-note {
+                right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-container">
+
+        <!-- LOGIN FORM -->
+        <section class="login-panel">
+
+            <div class="brand">
+                <img
+                    src="{{ url_for('static', filename='synq-logo.png') }}"
+                    alt="SYNQ logo">
+            </div>
+
+            <h1>Welcome Back</h1>
+
+            <p class="intro">
+                Your campus, your community, your events.
+                Sign in and get back in sync.
+            </p>
+
+            <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Sign In →
+                </button>
+
+            </form>
+
+            <p class="register-link">
+                New to SYNQ?
+                <a href="{{ url_for('register') }}">Create an account</a>
+            </p>
+
+            <div class="footer">
+                © SYNQ · Bringing campus events together
+            </div>
+
+        </section>
+
+        <!-- DECORATIVE RIGHT PANEL -->
+        <section class="visual-panel">
+
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+
+            <div class="visual-content">
+
+                <h2 class="visual-heading">
+                    Great moments<br>start together.
+                </h2>
+
+                <p class="visual-description">
+                    Discover events, meet your community,
+                    and never miss a campus moment.
+                </p>
+
+                <div class="illustration">
+
+                    <div class="event-window">
+
+                        <div class="window-top">
+                            <span class="window-title">
+                                Your event space
+                            </span>
+                            <span class="window-dots">•••</span>
+                        </div>
+
+                        <div class="event-row">
+                            <div class="event-icon">✦</div>
+                            <div>
+                                <div class="event-name">
+                                    Campus Events
+                                </div>
+                                <div class="event-meta">
+                                    Discover what's happening
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-row">
+                            <div class="event-icon pink">♡</div>
+                            <div>
+                                <div class="event-name">
+                                    Your Community
+                                </div>
+                                <div class="event-meta">
+                                    Connect and participate
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event-row">
+                            <div class="event-icon blue">✓</div>
+                            <div>
+                                <div class="event-name">
+                                    Stay in Sync
+                                </div>
+                                <div class="event-meta">
+                                    Keep your plans together
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="floating-note">
+                        ✨ Something exciting awaits!
+                    </div>
+
+                </div>
+
+                <p class="visual-footer">
+                    One campus. Endless possibilities.
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

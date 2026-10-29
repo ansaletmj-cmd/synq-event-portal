@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event | SYNQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .edit-page {
+            max-width: 650px;
+            margin: 45px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(65, 38, 95, 0.10);
+        }
+
+        .edit-page h1 {
+            margin-top: 0;
+            color: #392354;
+        }
+
+        .edit-page .subtitle {
+            color: #79678f;
+            margin-bottom: 28px;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .edit-form label {
+            margin-top: 10px;
+            color: #392354;
+            font-weight: bold;
+        }
+
+        .edit-form input,
+        .edit-form textarea,
+        .edit-form select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid #d9cbea;
+            border-radius: 10px;
+            background: #fcfaff;
+            color: #30213f;
+            font: inherit;
+        }
+
+        .edit-form textarea {
+            resize: vertical;
+        }
+
+        .edit-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+            align-items: center;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            padding: 12px 18px;
+            border-radius: 10px;
+            font: inherit;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            border: none;
+            background: #68419a;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #513078;
+        }
+
+        .cancel-btn {
+            border: 1px solid #d9cbea;
+            color: #68419a;
+            background: white;
+        }
+
+        @media (max-width: 700px) {
+            .edit-page {
+                margin: 20px 14px;
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="edit-page">
+        <h1>Edit Event</h1>
+        <p class="subtitle">Update your event details below.</p>
+
+        <form method="POST" class="edit-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label for="title">Event Title</label>
+            <input id="title" type="text" name="title"
+                   value="{{ event['title'] }}" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description"
+                      rows="4">{{ event['description'] or '' }}</textarea>
+
+            <label for="venue">Venue</label>
+            <input id="venue" type="text" name="venue"
+                   value="{{ event['venue'] }}" required>
+
+            <label for="date">Date</label>
+            <input id="date" type="date" name="date"
+                   value="{{ event['date'] }}" required>
+
+            <label for="capacity">Capacity</label>
+            <input id="capacity" type="number" name="capacity"
+                   min="1" value="{{ event['capacity'] }}" required>
+
+            <label for="category">Category</label>
+            <input id="category" type="text" name="category"
+                   value="{{ event['category'] or '' }}">
+
+            <div class="edit-actions">
+                <button type="submit" class="save-btn">
+                    Save Changes
+                </button>
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="cancel-btn">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+    </main>
+
+</body>
+</html>

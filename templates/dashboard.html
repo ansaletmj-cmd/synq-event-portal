@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNQ - Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+       <a href="{{ url_for('dashboard') }}" class="logo">
+    <img
+        src="{{ url_for('static', filename='synq-logo.png') }}"
+        alt="SYNQ — Your Events. In Sync."
+        class="synq-logo"
+    >
+</a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}#explore-events">Explore Events</a>
+            <a href="{{ url_for('my_events') }}">My Events</a>
+
+            <a href="{{ url_for('notifications') }}">
+                Notifications 🔔
+                {% set unread_count_badge = unread_notification_count|default(0) %}
+                {% if unread_count_badge > 0 %}
+                    <span class="notification-badge">
+                        {{ unread_count_badge }}
+                    </span>
+                {% endif %}
+            </a>
+
+        <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout-link">Logout</button>
+</form>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+
+        <section class="welcome-section">
+            <h1>Welcome, {{ user_name }}! 👋</h1>
+            <p>Discover events, explore your interests, and get involved on campus.</p>
+        </section>
+
+        <section class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <div class="card-icon">📅</div>
+                <h2>Campus Events</h2>
+                <p>{{ total_events }} events available</p>
+                <a href="#explore-events">Explore Events →</a>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">🎟️</div>
+                <h2>My Registrations</h2>
+                <p>{{ my_registration_count }} registrations</p>
+                <a href="{{ url_for('my_events') }}">View My Events →</a>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">🔔</div>
+                <h2>Notifications</h2>
+                <p>{{ unread_notification_count|default(0) }} unread</p>
+                <a href="{{ url_for('notifications') }}">View Notifications →</a>
+            </div>
+
+        </section>
+
+        <section class="events-section" id="explore-events"></section>
+            <h2>Explore Events</h2>
+            <p class="section-description">
+                Find technical, cultural, sports, and other activities.
+            </p>
+
+            <form
+                action="{{ url_for('dashboard') }}"
+                method="GET"
+                class="search-filter-form"
+            >
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search events, venues, or keywords..."
+                    value="{{ search_query|default('') }}"
+                >
+
+                <select name="category">
+                    <option value="">All Categories</option>
+
+                    <option value="Technical"
+                        {% if selected_category == "Technical" %}selected{% endif %}>
+                        Technical
+                    </option>
+
+                    <option value="Cultural"
+                        {% if selected_category == "Cultural" %}selected{% endif %}>
+                        Cultural
+                    </option>
+
+                    <option value="Sports"
+                        {% if selected_category == "Sports" %}selected{% endif %}>
+                        Sports
+                    </option>
+
+                    <option value="Workshop"
+                        {% if selected_category == "Workshop" %}selected{% endif %}>
+                        Workshop
+                    </option>
+
+                    <option value="Seminar"
+                        {% if selected_category == "Seminar" %}selected{% endif %}>
+                        Seminar
+                    </option>
+
+                    <option value="Other"
+                        {% if selected_category == "Other" %}selected{% endif %}>
+                        Other
+                    </option>
+                </select>
+
+                <button type="submit">🔍 Search</button>
+
+                <a href="{{ url_for('dashboard') }}" class="clear-filter">
+                    Clear
+                </a>
+            </form>
+
+            <div class="event-list">
+                {% for event in events %}
+
+                    <div class="event-card">
+                        <span class="event-category">
+                            {{ event["category"] or "Campus Event" }}
+                        </span>
+
+                        <h3>{{ event["title"] }}</h3>
+
+                        <p>
+                            {{ event["description"] or "More details coming soon." }}
+                        </p>
+
+                        <p>📍 {{ event["venue"] }}</p>
+                        <p>📅 {{ event["date"] }}</p>
+
+                        <a
+                            href="{{ url_for('event_details', event_id=event['event_id']) }}"
+                            class="view-event-btn"
+                        >
+                            View Event →
+                        </a>
+                    </div>
+
+                {% else %}
+
+                    <div class="no-events">
+                        <h3>No matching events found 😕</h3>
+                        <p>Try another keyword or choose a different category.</p>
+                        <a href="{{ url_for('dashboard') }}">Show All Events</a>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

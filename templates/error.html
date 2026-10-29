@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNQ | Something went wrong</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f7f2ff;
+            color: #38234f;
+            font-family: "Times New Roman", serif;
+        }
+
+        .error-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 42px 30px;
+            text-align: center;
+            background: white;
+            border: 1px solid #e7d9f8;
+            border-radius: 22px;
+            box-shadow: 0 15px 45px rgba(74, 45, 105, 0.12);
+        }
+
+        .error-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #f0e5ff;
+            color: #7046ad;
+            font-size: 38px;
+        }
+
+        h1 {
+            margin: 0 0 14px;
+            font-size: 32px;
+            color: #38234f;
+        }
+
+        p {
+            margin: 0 0 26px;
+            color: #897b98;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .error-button {
+            display: inline-block;
+            padding: 13px 24px;
+            border-radius: 10px;
+            background: #7046ad;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .error-button:hover {
+            background: #59338e;
+        }
+
+        .brand {
+            margin-top: 25px;
+            color: #927caf;
+            font-size: 13px;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <main class="error-card">
+        <div class="error-icon">!</div>
+        <h1>Unable to Create Account</h1>
+        <p>{{ message }}</p>
+        <a href="{{ url_for('register') }}" class="error-button">
+            Try Again
+        </a>
+        <div class="brand">SYNQ · YOUR EVENTS. IN SYNC.</div>
+    </main>
+</body>
+</html>
