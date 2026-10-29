@@ -1,0 +1,2226 @@
+import os
+print("RUNNING APP FROM:", os.path.abspath(__file__))
+/* ========================================
+   SYNQ - MAIN STYLESHEET
+   ======================================== */
+
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
+    color: #1f2937;
+    line-height: 1.6;
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #ffffff;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #374151;
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* General main content */
+main {
+    padding: 40px 5%;
+}
+
+main h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+    color: #172554;
+}
+
+main p {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* General buttons and links */
+.btn,
+.primary-btn,
+.secondary-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn,
+.primary-btn {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+}
+
+.btn:hover,
+.primary-btn:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: #ffffff;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+}
+
+.secondary-btn:hover {
+    background-color: #eff6ff;
+}
+
+/* ========================================
+   STUDENT DASHBOARD
+   ======================================== */
+
+.dashboard-cards {
+    display: flex;
+    gap: 25px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    width: 250px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.dashboard-card h3 {
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   EVENT LIST AND EVENT CARDS
+   ======================================== */
+
+.event-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.event-card {
+    background: #ffffff;
+    padding: 25px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-width: 0;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+.event-category {
+    display: inline-block;
+    background-color: #e8f0ff;
+    color: #2563eb;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.event-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1e3a8a;
+}
+
+.event-card p {
+    color: #64748b;
+    margin: 8px 0;
+    overflow-wrap: anywhere;
+}
+
+.event-card button {
+    margin-top: 15px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.event-card button:hover {
+    background-color: #1d4ed8;
+}
+
+/* ========================================
+   CREATE EVENT FORM
+   ======================================== */
+
+.event-form {
+    max-width: 700px;
+    margin-top: 25px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event-form label {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #374151;
+}
+
+.event-form input,
+.event-form textarea,
+.event-form select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    outline: none;
+    background-color: #ffffff;
+}
+
+.event-form input:focus,
+.event-form textarea:focus,
+.event-form select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.event-form textarea {
+    resize: vertical;
+}
+
+.event-form button {
+    margin-top: 20px;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.event-form button:hover {
+    background-color: #1d4ed8;
+}
+
+/* ========================================
+   HOME PAGE
+   ======================================== */
+
+.home-container {
+    min-height: calc(100vh - 70px);
+    padding: 70px 8%;
+}
+
+.hero-section {
+    max-width: 850px;
+}
+
+.hero-section h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    margin-bottom: 22px;
+    color: #172554;
+}
+
+.hero-section p {
+    font-size: 19px;
+    line-height: 1.7;
+    max-width: 700px;
+    margin-bottom: 28px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+
+.home-features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+}
+
+.feature-card {
+    background-color: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+.feature-icon {
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   SYNQ — SEARCH AND FILTER
+   ======================================== */
+
+.search-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 1050px;
+    margin: 26px 0 32px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e8ddf8;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(76, 43, 112, 0.07);
+    box-sizing: border-box;
+}
+
+.search-filter-form input,
+.search-filter-form select {
+    height: 48px;
+    padding: 0 15px;
+    border: 1px solid #e0d3f3;
+    border-radius: 11px;
+    background: #fcfaff;
+    color: #382052;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 17px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-filter-form input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.search-filter-form input::placeholder {
+    color: #9989aa;
+}
+
+.search-filter-form select {
+    min-width: 175px;
+    cursor: pointer;
+}
+
+.search-filter-form input:focus,
+.search-filter-form select:focus {
+    border-color: #a786d6;
+    box-shadow: 0 0 0 3px rgba(167, 134, 214, 0.16);
+    background: #ffffff;
+}
+
+.search-filter-form button {
+    min-height: 48px;
+    padding: 0 23px;
+    border: 1px solid #7446a8;
+    border-radius: 11px;
+    background: #7446a8;
+    color: #ffffff;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 17px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.search-filter-form button:hover {
+    background: #593383;
+    transform: translateY(-1px);
+}
+
+.search-filter-form a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 12px;
+    color: #7446a8;
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 17px;
+    text-decoration: none;
+}
+
+.search-filter-form a:hover {
+    color: #593383;
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .search-filter-form {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .search-filter-form input,
+    .search-filter-form select,
+    .search-filter-form button {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+
+/* ========================================
+   ADMIN DASHBOARD
+   ======================================== */
+
+main.admin-dashboard {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+}
+
+.admin-dashboard h1 {
+    font-size: 36px;
+    line-height: 1.25;
+    color: #172554;
+    margin-bottom: 8px;
+}
+
+.admin-dashboard > p {
+    color: #64748b;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+
+/* Admin sections */
+.admin-dashboard section {
+    background: #ffffff;
+    padding: 26px;
+    margin-bottom: 28px;
+    border-radius: 18px;
+    box-shadow: 0 5px 22px rgba(15, 23, 42, 0.06);
+}
+
+.admin-dashboard section h2 {
+    color: #1e293b;
+    font-size: 23px;
+    line-height: 1.3;
+    margin: 0 0 20px;
+}
+
+/* Overview cards */
+.admin-dashboard section:first-of-type {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.admin-dashboard section:first-of-type h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 2px;
+}
+
+.admin-dashboard section:first-of-type p {
+    background: #eff6ff;
+    border-left: 5px solid #3b82f6;
+    border-radius: 12px;
+    padding: 22px;
+    margin: 0;
+    color: #1e40af;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Add Event button */
+.admin-dashboard .btn {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.admin-dashboard .btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Admin event grid */
+.admin-dashboard section:last-of-type {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.admin-dashboard section:last-of-type h2 {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+}
+
+.admin-dashboard .event-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 22px;
+    min-width: 0;
+    box-shadow: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-dashboard .event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.09);
+}
+
+.admin-dashboard .event-card h3 {
+    color: #1d4ed8;
+    font-size: 21px;
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+}
+
+.admin-dashboard .event-card p {
+    color: #64748b;
+    font-size: 15px;
+    margin: 8px 0;
+    overflow-wrap: anywhere;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 800px) {
+    .event-list,
+    .home-features {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-section h1 {
+        font-size: 40px;
+    }
+
+    .navbar {
+        padding: 18px 25px;
+    }
+
+    .home-container {
+        padding: 50px 25px;
+    }
+
+    main.admin-dashboard {
+        padding: 30px 22px 45px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+
+    main {
+        padding: 28px 20px;
+    }
+
+    main h1,
+    .admin-dashboard h1 {
+        font-size: 28px;
+    }
+
+    .event-list,
+    .home-features,
+    .admin-dashboard section:first-of-type,
+    .admin-dashboard section:last-of-type {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-dashboard section:first-of-type h2,
+    .admin-dashboard section:last-of-type h2 {
+        grid-column: auto;
+    }
+
+    .admin-dashboard section {
+        padding: 20px;
+    }
+
+    .search-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-filter-form input,
+    .search-filter-form select,
+    .search-filter-form button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .event-form {
+        padding: 22px;
+    }
+
+    .hero-section h1 {
+        font-size: 36px;
+    }
+}
+
+/* ========================================
+   SYNQ - PREMIUM ADMIN THEME
+   Add this at the END of style.css
+   ======================================== */
+
+/* Modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f6ff;
+    color: #252747;
+}
+
+/* Navigation */
+.navbar {
+    padding: 20px 6%;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #e9eaf5;
+    box-shadow: 0 4px 20px rgba(57, 55, 110, 0.05);
+}
+
+.logo {
+    color: #5145cd;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.nav-links a {
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: #7568ee;
+}
+
+/* Admin page layout */
+main.admin-dashboard {
+    max-width: 1350px;
+    padding: 48px 40px 70px;
+}
+
+.admin-dashboard h1 {
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1.4px;
+    color: #252747;
+    margin-bottom: 10px;
+}
+
+.admin-dashboard > p {
+    color: #8588a5;
+    font-size: 16px;
+    margin-bottom: 36px;
+}
+
+/* Sections */
+.admin-dashboard section {
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #ececfa;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 10px 35px rgba(64, 60, 130, 0.055);
+}
+
+.admin-dashboard section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #303253;
+    letter-spacing: -0.4px;
+}
+
+/* Overview statistic cards */
+.admin-dashboard section:first-of-type p {
+    padding: 25px;
+    min-height: 105px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f0efff, #f8f7ff);
+    color: #5145cd;
+    border: 1px solid #e5e2ff;
+    border-left: 5px solid #7568ee;
+    border-radius: 16px;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+/* Add Event button */
+.admin-dashboard .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    margin-bottom: 26px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7568ee, #5145cd);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 7px 16px rgba(81, 69, 205, 0.22);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-dashboard .btn:hover {
+    background: linear-gradient(135deg, #6658e4, #4539bd);
+    box-shadow: 0 10px 22px rgba(81, 69, 205, 0.28);
+    transform: translateY(-3px);
+}
+
+/* Event cards */
+.admin-dashboard section:last-of-type .event-card {
+    padding: 26px;
+    border: 1px solid #ecebfa;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff, #fbfaff);
+    box-shadow: 0 4px 15px rgba(64, 60, 130, 0.035);
+    transition: transform 0.25s, box-shadow 0.25s,
+                border-color 0.25s;
+}
+
+.admin-dashboard section:last-of-type .event-card:hover {
+    transform: translateY(-5px);
+    border-color: #d6d0ff;
+    box-shadow: 0 14px 28px rgba(64, 60, 130, 0.10);
+}
+
+.admin-dashboard .event-card h3 {
+    font-size: 21px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #5145cd;
+    margin-bottom: 15px;
+}
+
+.admin-dashboard .event-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #777b98;
+    margin: 7px 0;
+}
+
+/* Better spacing on smaller screens */
+@media (max-width: 650px) {
+    main.admin-dashboard {
+        padding: 30px 16px 45px;
+    }
+
+    .admin-dashboard section {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-dashboard h1 {
+        letter-spacing: -0.8px;
+    }
+}
+
+/* My Events page */
+.my-events-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 30px;
+}
+
+.my-events-heading {
+    margin-bottom: 30px;
+}
+
+.my-events-heading h1 {
+    font-size: 42px;
+    color: #192b59;
+    margin: 0 0 12px;
+}
+
+.my-events-heading p {
+    color: #64748b;
+    font-size: 18px;
+}
+
+.my-events-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    align-items: start;
+}
+
+.my-event-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+}
+
+.my-event-card h2 {
+    color: #1e3a70;
+    margin: 20px 0 12px;
+}
+
+.my-event-card p {
+    color: #64748b;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.my-events-empty {
+    grid-column: 1 / -1;
+    padding: 35px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.my-events-empty h2 {
+    color: #1e3a70;
+}
+
+@media (max-width: 600px) {
+    .my-events-container {
+        padding: 28px 18px;
+    }
+
+    .my-events-heading h1 {
+        font-size: 32px;
+    }
+}
+
+
+/* ==========================================
+   SYNQ - LAPTOP & MOBILE RESPONSIVE
+   ========================================== */
+
+/* Prevent unwanted horizontal scrolling */
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+}
+
+img,
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+/* Keep navigation neat on laptops */
+.navbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 20px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+}
+
+.nav-links a {
+    white-space: nowrap;
+}
+
+/* Tablets and smaller laptops */
+@media (max-width: 800px) {
+    .event-list,
+    .home-features {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    main {
+        padding: 30px 4%;
+    }
+
+    .hero-section h1 {
+        font-size: 40px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .logo {
+        font-size: 22px;
+        overflow-wrap: anywhere;
+    }
+
+    /* All four navigation links stay visible */
+    .nav-links {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+    }
+
+    .nav-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 8px 5px;
+        border-radius: 9px;
+        background: #f1f3ff;
+        color: #3730a3;
+        font-size: 13px;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .nav-links a:hover {
+        background: #e5e7ff;
+        color: #4338ca;
+    }
+
+    main {
+        padding: 24px 16px;
+    }
+
+    main h1,
+    .admin-dashboard h1 {
+        font-size: 28px;
+        overflow-wrap: anywhere;
+    }
+
+    .event-list,
+    .home-features,
+    .admin-dashboard section:first-of-type,
+    .admin-dashboard section:last-of-type {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .dashboard-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .event-card,
+    .feature-card {
+        min-width: 0;
+        padding: 20px;
+    }
+
+    .event-card h3 {
+        font-size: 20px;
+        overflow-wrap: anywhere;
+    }
+
+    .event-form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .event-form input,
+    .event-form select,
+    .event-form textarea,
+    .event-form button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .hero-section h1 {
+        font-size: 34px;
+    }
+
+    .home-container {
+        padding: 35px 18px;
+    }
+
+    .hero-buttons {
+        gap: 10px;
+    }
+
+    .hero-buttons .btn,
+    .hero-buttons .primary-btn,
+    .hero-buttons .secondary-btn {
+        max-width: 100%;
+    }
+
+    .my-events-container {
+        padding: 25px 16px;
+    }
+
+    .my-events-heading h1 {
+        font-size: 30px;
+    }
+
+    .admin-dashboard section {
+        padding: 18px;
+    }
+
+    /* Make wide tables scroll instead of breaking the page */
+    table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+    .navbar {
+        padding: 12px;
+    }
+
+    .nav-links {
+        gap: 6px;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+        padding: 7px 3px;
+    }
+
+    main {
+        padding: 20px 12px;
+    }
+}
+
+/* Notification badge and read/unread styles */
+.notification-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 4px;
+    border-radius: 50px;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.notification-unread {
+    border-left: 5px solid #4f46e5;
+}
+
+.notification-unread-label {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #e0e7ff;
+    color: #3730a3;
+    font-size: 11px;
+}
+
+.notification-read-label {
+    display: inline-block;
+    margin-left: 8px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+
+/* ==========================================
+   SYNQ — PASTEL LILAC THEME 💜
+   Your Events. In Sync.
+   ========================================== */
+
+:root {
+    --synq-bg: #F5F0FF;
+    --synq-card: #FFFFFF;
+    --synq-lilac: #E8DFFF;
+    --synq-purple: #B9A2E8;
+    --synq-purple-dark: #8064BD;
+    --synq-text: #44345E;
+    --synq-muted: #796B8F;
+    --synq-border: #E5DCF4;
+    --synq-shadow: 0 8px 26px rgba(91, 66, 135, 0.09);
+}
+
+/* Overall page */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--synq-bg);
+    color: var(--synq-text);
+}
+
+/* Navigation */
+.navbar {
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--synq-border);
+    box-shadow: 0 4px 18px rgba(91, 66, 135, 0.07);
+}
+
+.logo {
+    color: var(--synq-purple-dark);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.nav-links a {
+    color: var(--synq-text);
+}
+
+.nav-links a:hover {
+    color: var(--synq-purple-dark);
+}
+
+/* Headings and text */
+main h1,
+.admin-dashboard h1,
+.hero-section h1,
+.my-events-heading h1 {
+    color: var(--synq-text);
+}
+
+main p,
+.admin-dashboard > p,
+.my-events-heading p {
+    color: var(--synq-muted);
+}
+
+/* Buttons */
+.btn,
+.primary-btn,
+.event-card button,
+.event-form button,
+.search-filter-form button,
+.admin-dashboard .btn {
+    background: var(--synq-purple-dark);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 14px rgba(128, 100, 189, 0.16);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover,
+.primary-btn:hover,
+.event-card button:hover,
+.event-form button:hover,
+.search-filter-form button:hover,
+.admin-dashboard .btn:hover {
+    background: #6F53AD;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background: #FFFFFF;
+    color: var(--synq-purple-dark);
+    border: 1px solid var(--synq-purple);
+    border-radius: 12px;
+}
+
+.secondary-btn:hover {
+    background: var(--synq-lilac);
+}
+
+/* Dashboard cards */
+.dashboard-card,
+.feature-card,
+.event-card,
+.my-event-card,
+.my-events-empty {
+    background: var(--synq-card);
+    border: 1px solid var(--synq-border);
+    border-radius: 18px;
+    box-shadow: var(--synq-shadow);
+}
+
+.dashboard-card:hover,
+.feature-card:hover,
+.event-card:hover {
+    border-color: var(--synq-purple);
+}
+
+/* Event category labels */
+.event-category {
+    background: var(--synq-lilac);
+    color: var(--synq-purple-dark);
+}
+
+/* Event titles */
+.event-card h3,
+.my-event-card h2 {
+    color: var(--synq-text);
+}
+
+/* Forms */
+.event-form,
+.search-filter-form {
+    background: var(--synq-card);
+    border: 1px solid var(--synq-border);
+    border-radius: 18px;
+    box-shadow: var(--synq-shadow);
+}
+
+.event-form label {
+    color: var(--synq-text);
+}
+
+.event-form input,
+.event-form textarea,
+.event-form select,
+.search-filter-form input,
+.search-filter-form select {
+    background: #FCFAFF;
+    color: var(--synq-text);
+    border: 1px solid #DCD0EF;
+    border-radius: 10px;
+}
+
+.event-form input:focus,
+.event-form textarea:focus,
+.event-form select:focus,
+.search-filter-form input:focus,
+.search-filter-form select:focus {
+    border-color: var(--synq-purple-dark);
+    box-shadow: 0 0 0 3px rgba(185, 162, 232, 0.22);
+}
+
+/* Admin dashboard */
+.admin-dashboard section {
+    background: var(--synq-card);
+    border: 1px solid var(--synq-border);
+    border-radius: 20px;
+    box-shadow: var(--synq-shadow);
+}
+
+.admin-dashboard section h2 {
+    color: var(--synq-text);
+}
+
+.admin-dashboard section:first-of-type p {
+    background: linear-gradient(135deg, #F0E9FF, #FBF9FF);
+    color: var(--synq-purple-dark);
+    border: 1px solid var(--synq-border);
+    border-left: 5px solid var(--synq-purple);
+    border-radius: 14px;
+}
+
+.admin-dashboard section:last-of-type .event-card {
+    background: #FCFAFF;
+    border-color: var(--synq-border);
+}
+
+.admin-dashboard .event-card h3 {
+    color: var(--synq-purple-dark);
+}
+
+/* My Events page */
+.my-event-card h2,
+.my-events-empty h2 {
+    color: var(--synq-text);
+}
+
+/* Navigation on mobile */
+@media (max-width: 600px) {
+    .nav-links a {
+        background: var(--synq-lilac);
+        color: var(--synq-text);
+    }
+
+    .nav-links a:hover {
+        background: #DCCCF7;
+        color: #5F438F;
+    }
+}
+
+/* Notification styles */
+.notification-badge {
+    background: #8C65C6;
+    color: #FFFFFF;
+}
+
+.notification-unread {
+    border-left-color: var(--synq-purple-dark);
+}
+
+.notification-unread-label {
+    background: var(--synq-lilac);
+    color: var(--synq-purple-dark);
+}
+
+/* ==========================================
+   SYNQ — MODERN PREMIUM THEME
+   Fonts + Pastel Lilac
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --synq-bg: #F7F2FF;
+    --synq-white: #FFFFFF;
+    --synq-lilac: #E8D9FF;
+    --synq-purple: #9565D8;
+    --synq-purple-dark: #633B98;
+    --synq-text: #352052;
+    --synq-muted: #817096;
+    --synq-border: #E8DDF7;
+    --synq-shadow: 0 8px 24px rgba(99, 59, 152, 0.09);
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--synq-bg);
+    color: var(--synq-text);
+}
+
+h1, h2, h3, h4,
+.logo {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--synq-border);
+    box-shadow: 0 4px 18px rgba(99, 59, 152, 0.07);
+}
+
+.logo {
+    color: var(--synq-purple-dark);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.nav-links a {
+    color: var(--synq-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--synq-purple);
+}
+
+main h1,
+.hero-section h1,
+.admin-dashboard h1,
+.my-events-heading h1 {
+    color: var(--synq-text);
+    font-weight: 700;
+}
+
+.dashboard-card,
+.feature-card,
+.event-card,
+.my-event-card,
+.my-events-empty {
+    background: var(--synq-white);
+    border: 1px solid var(--synq-border);
+    border-radius: 20px;
+    box-shadow: var(--synq-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover,
+.feature-card:hover,
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(99, 59, 152, 0.13);
+}
+
+.event-category {
+    background: var(--synq-lilac);
+    color: var(--synq-purple-dark);
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.btn,
+.primary-btn,
+.event-card button,
+.event-form button,
+.search-filter-form button,
+.admin-dashboard .btn {
+    background: linear-gradient(135deg, #A477E3, #7545B0);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover,
+.primary-btn:hover,
+.event-card button:hover,
+.event-form button:hover,
+.search-filter-form button:hover,
+.admin-dashboard .btn:hover {
+    background: linear-gradient(135deg, #9060D0, #633B98);
+    box-shadow: 0 7px 18px rgba(99, 59, 152, 0.2);
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background: white;
+    color: var(--synq-purple-dark);
+    border: 1px solid var(--synq-purple);
+    border-radius: 12px;
+}
+
+.event-form,
+.search-filter-form,
+.admin-dashboard section {
+    background: white;
+    border-color: var(--synq-border);
+    border-radius: 20px;
+    box-shadow: var(--synq-shadow);
+}
+
+.event-form input,
+.event-form textarea,
+.event-form select,
+.search-filter-form input,
+.search-filter-form select {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border-color: #DCCCEF;
+    border-radius: 10px;
+}
+
+.event-form input:focus,
+.event-form textarea:focus,
+.event-form select:focus,
+.search-filter-form input:focus,
+.search-filter-form select:focus {
+    border-color: var(--synq-purple);
+    box-shadow: 0 0 0 3px rgba(149, 101, 216, 0.16);
+    outline: none;
+}
+
+.notification-badge {
+    background: var(--synq-purple);
+    color: white;
+}
+
+.notification-unread {
+    border-left-color: var(--synq-purple);
+}
+
+.notification-unread-label {
+    background: var(--synq-lilac);
+    color: var(--synq-purple-dark);
+}
+
+@media (max-width: 600px) {
+    .nav-links a {
+        background: var(--synq-lilac);
+        color: var(--synq-text);
+        border-radius: 10px;
+    }
+
+    .nav-links a:hover {
+        background: #DCC7FA;
+    }
+}
+/* SYNQ typography refinement */
+body,
+p,
+a,
+button,
+input,
+select,
+textarea {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+.logo {
+    font-family: "Poppins", sans-serif !important;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.welcome-section h1 {
+    font-size: clamp(34px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.dashboard-card h2 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.nav-links a {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.synq-logo {
+    display: block;
+    width: 260px;
+    height: 110px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 260px;
+    height: 110px;
+    overflow: visible;
+}
+
+@media (max-width: 600px) {
+    .synq-logo {
+        width: 200px;
+        height: 85px;
+    }
+
+    .navbar .logo {
+        width: 200px;
+        height: 85px;
+    }
+}
+
+/* SYNQ — compact navbar with a readable logo */
+.navbar {
+    min-height: 100px !important;
+    padding: 8px 5% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 24px;
+}
+
+.navbar .logo {
+    width: 300px !important;
+    height: 95px !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.navbar .synq-logo {
+    width: 300px !important;
+    height: 95px !important;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
+}
+
+.navbar .nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.navbar .nav-links a {
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .navbar .logo {
+        width: 240px !important;
+        height: 78px !important;
+    }
+
+    .navbar .synq-logo {
+        width: 240px !important;
+        height: 78px !important;
+    }
+}
+
+/* Make the SYNQ wordmark larger */
+.navbar .logo {
+    width: 340px !important;
+    height: 95px !important;
+    overflow: visible !important;
+    flex-shrink: 0;
+}
+
+.navbar .synq-logo {
+    width: 340px !important;
+    height: 95px !important;
+    object-fit: cover !important;
+    object-position: center;
+    transform: scale(1.35);
+    transform-origin: left center;
+}
+
+
+/* SYNQ navbar logo */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 260px;
+    height: 85px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.navbar .synq-logo {
+    display: block;
+    width: 260px;
+    height: 85px;
+    object-fit: contain;
+    object-position: left center;
+    transform: none;
+}
+
+/* SYNQ navbar final layout fix */
+.navbar {
+    width: 100%;
+    min-height: 115px !important;
+    padding: 8px 4% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 20px;
+}
+
+.navbar .logo {
+    width: 250px !important;
+    height: 100px !important;
+    flex-shrink: 0;
+    overflow: hidden !important;
+}
+
+.navbar .synq-logo {
+    width: 250px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    object-position: center;
+    transform: none !important;
+}
+
+.navbar .nav-links {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+
+    .navbar .logo,
+    .navbar .synq-logo {
+        width: 210px !important;
+        height: 80px !important;
+    }
+}
+
+/* Keep dashboard content fully visible */
+.dashboard-container {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 35px 5%;
+    box-sizing: border-box;
+}
+
+.welcome-section {
+    width: 100%;
+    margin: 0 0 28px;
+}
+
+.welcome-section h1 {
+    font-size: clamp(30px, 4vw, 48px);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.dashboard-card {
+    width: 300px;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 25px 18px;
+    }
+
+    .dashboard-card {
+        width: 100%;
+    }
+}
+
+/* Slightly enlarge the SYNQ logo */
+.navbar .logo {
+    width: 315x !important;
+    height: 130px !important;
+}
+
+.navbar .synq-logo {
+    width: 315px !important;
+    height: 130px !important;
+    object-fit: contain !important;
+    transform: none !important;
+}
+
+/* SYNQ — elegant typography */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar .nav-links a,
+.navbar .logo {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.navbar .nav-links a {
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: #9063cf;
+}
+
+.welcome-section h1 {
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.welcome-section p,
+.dashboard-card p,
+.section-description {
+    font-weight: 400;
+    color: #796b8f;
+}
+
+.dashboard-card h2,
+.events-section h2 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.dashboard-card a,
+.event-card a,
+button,
+.view-event-btn {
+    font-weight: 600;
+}
+
+input,
+select,
+textarea {
+    font-size: 15px;
+}
+
+
+/* SYNQ — Times New Roman typography */
+body,
+body *,
+button,
+input,
+select,
+textarea {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+body {
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.welcome-section h1 {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 52px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+
+.dashboard-card h2,
+.events-section h2,
+.event-card h3 {
+    font-family: "Times New Roman", Times, serif !important;
+    font-weight: bold;
+}
+
+.navbar .nav-links a {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.dashboard-card p,
+.dashboard-card a,
+.event-card p,
+.event-card a {
+    font-size: 18px;
+}
+
+/* SYNQ: compact navbar and consistent typography */
+body,
+body *,
+body *::before,
+body *::after {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+.navbar {
+    height: 125px !important;
+    min-height: 0 !important;
+    padding: 6px 5% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px;
+}
+
+.navbar .logo {
+    width: 250px !important;
+    height: 105px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+}
+
+.navbar .synq-logo {
+    width: 250px !important;
+    height: 105px !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+    transform: none !important;
+}
+
+.navbar .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.navbar .nav-links a {
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    text-decoration: none;
+}
+
+.welcome-section h1 {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 48px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.2;
+}
+
+.dashboard-card h2,
+.events-section h2,
+.event-card h3 {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 27px !important;
+    font-weight: 700 !important;
+}
+
+@media (max-width: 800px) {
+    .navbar {
+        height: auto !important;
+        min-height: 100px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .navbar .logo {
+        width: 200px !important;
+        height: 80px !important;
+    }
+
+    .navbar .synq-logo {
+        width: 200px !important;
+        height: 80px !important;
+    }
+
+    .welcome-section h1 {
+        font-size: 36px !important;
+    }
+}
+
+/* Force Times New Roman in the entire top navbar */
+nav.navbar,
+nav.navbar *,
+.navbar .logo,
+.navbar .nav-links,
+.navbar .nav-links a,
+.navbar .notification-badge {
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+.navbar .nav-links a {
+    font-size: 20px !important;
+    font-weight: normal !important;
+    letter-spacing: 0 !important;
+}
+
+/* SYNQ — polished, balanced header */
+.navbar {
+    height: 112px !important;
+    min-height: 112px !important;
+    padding: 8px 5% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8dfff;
+}
+
+.navbar .logo {
+    width: 220px !important;
+    height: 100px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar .synq-logo {
+    width: 220px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+    transform: none !important;
+}
+
+.navbar .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 28px !important;
+    flex-wrap: nowrap !important;
+}
+
+.navbar .nav-links a {
+    font-family: "Times New Roman", Times, serif !important;
+    font-size: 19px !important;
+    font-weight: 500 !important;
+    color: #382052 !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: #9063cf !important;
+}
+
+@media (max-width: 850px) {
+    .navbar {
+        height: auto !important;
+        min-height: 100px !important;
+        flex-wrap: wrap !important;
+        gap: 8px 20px !important;
+    }
+
+    .navbar .logo {
+        width: 180px !important;
+        height: 78px !important;
+    }
+
+    .navbar .synq-logo {
+        width: 180px !important;
+        height: 78px !important;
+    }
+
+    .navbar .nav-links {
+        gap: 12px 18px !important;
+        flex-wrap: wrap !important;
+    }
+}
+
+.admin-event-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-event-btn,
+.delete-event-btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.edit-event-btn {
+    background: #eee5fc;
+    color: #68419a;
+    border: 1px solid #d9c7f3;
+}
+
+.edit-event-btn:hover {
+    background: #dfd0f5;
+}
+
+.delete-event-btn {
+    background: #fbe8eb;
+    color: #a53d55;
+    border: 1px solid #f0c5ce;
+}
+
+.delete-event-btn:hover {
+    background: #f5d5dc;
+}
+
+.admin-event-actions form {
+    margin: 0;
+}
+
+
+/* SYNQ - Access Denied Page */
+.access-denied-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f5efff, #eee7ff, #ffffff);
+    font-family: "Times New Roman", serif;
+}
+
+.access-denied-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 40px 30px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e5d9ff;
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(95, 63, 150, 0.12);
+    box-sizing: border-box;
+}
+
+.access-denied-icon {
+    font-size: 42px;
+    margin-bottom: 16px;
+}
+
+.access-denied-card h1 {
+    color: #56358b;
+    font-size: 30px;
+    margin: 0 0 14px;
+}
+
+.access-denied-card p {
+    color: #5f596b;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.access-denied-card .access-denied-note {
+    font-size: 14px;
+    color: #817791;
+    margin-bottom: 28px;
+}
+
+.access-denied-button {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 10px;
+    background: #7651b5;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+.access-denied-button:hover {
+    background: #5b3994;
+}
+/* SYNQ Logout button styling */
+.logout-form {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-link {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.logout-link:hover {
+    background: #e0e7ff;
+    color: #3730a3;
+}
