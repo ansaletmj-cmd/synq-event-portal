@@ -1,6 +1,9 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
-from database import get_db_connection
+if os.environ.get("DATABASE_URL"):
+    from database_postgres import get_db_connection
+else:
+    from database import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
 
