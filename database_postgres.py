@@ -76,9 +76,6 @@ def adapt_sql(sql):
     return sql
 
 
-# --------------------------------------------------
-# CURSOR COMPATIBILITY
-# --------------------------------------------------
 
 class CursorAdapter:
     def __init__(self, cursor):
@@ -102,14 +99,18 @@ class CursorAdapter:
             )
         )
 
+        adapted_sql = adapt_sql(sql)
+
+        print("DEBUG SQL:", adapted_sql)
         self._cursor.execute(
-            adapt_sql(sql),
+            adapted_sql,
             () if params is None else params,
         )
 
         self._lastrowid = None
 
-        if self._insert_returning:
+        # Fetch an ID only when this INSERT returns a row.
+        if self._insert_returning and self._cursor.description is not None:
             row = self._cursor.fetchone()
             if row is not None:
                 self._lastrowid = row[0]
@@ -147,8 +148,6 @@ class CursorAdapter:
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
-
-
 
 # --------------------------------------------------
 # CONNECTION COMPATIBILITY
