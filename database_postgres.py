@@ -16,8 +16,10 @@ class HybridRow(dict):
             return list(self.values())[key]
         return super().__getitem__(key)
 
-
 def hybrid_row_factory(cursor):
+    if cursor.description is None:
+        return lambda values: values
+
     columns = [column.name for column in cursor.description]
 
     def make_row(values):
