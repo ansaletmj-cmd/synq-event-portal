@@ -119,13 +119,15 @@ def register():
 
         except Exception:
             conn.rollback()
+            app.logger.exception("Registration failed")
+
             return render_template(
                 "error.html",
                 message=(
-                    "This email may already be registered. "
-                    "Please try another email address."
+                    "Registration failed because of a server error. "
+                    "Please try again later."
                 )
-            ), 400
+            ), 500
 
         finally:
             conn.close()
