@@ -30,82 +30,73 @@ def home():
 
     return render_template("home.html")
 
-# LOGIN USER
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if session.get("user_id"):
-        if str(session.get("role", "")).lower() == "admin":
-            return redirect(url_for("admin_dashboard"))
-        return redirect(url_for("dashboard"))
-
-    if request.method == "POST":
-        email = request.form["email"].strip()
-        password = request.form["password"]
-
-        conn = get_db_connection()
-        user = conn.execute(
-            "SELECT * FROM user WHERE email = ?",
-            (email,)
-        ).fetchone()
-        conn.close()
-
-        if user and check_password_hash(
-            user["password_hash"], password
-        ):
-            session["user_id"] = user["user_id"]
-            session["user_name"] = user["name"]
-            session["role"] = user["role"]
-
-            if str(user["role"]).lower() == "admin":
-                return redirect(url_for("admin_dashboard"))
-
-            return redirect(url_for("dashboard"))
-
-        return "Invalid email or password.", 401
-
-    return render_template("login.html")
-
 
 # -----------------------------------
 # REGISTER USER
 # -----------------------------------
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
     if session.get("user_id"):
         if str(session.get("role", "")).lower() == "admin":
             return redirect(url_for("admin_dashboard"))
         return redirect(url_for("dashboard"))
 
     if request.method == "POST":
+
         name = request.form.get("name", "").strip()
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
 
         # Validate required fields
         if not name or not email or not password:
-            return "All fields are required.", 400
+            return render_template(
+                "register.html",
+                error="All fields are required."
+            ), 400
 
         # Validate name length
         if len(name) > 100:
-            return "Name must be 100 characters or fewer.", 400
+            return render_template(
+                "register.html",
+                error="Name must be 100 characters or fewer."
+            ), 400
 
-        # Basic email format validation
+        # Validate email
         if (
             "@" not in email
             or email.startswith("@")
             or email.endswith("@")
             or "." not in email.split("@")[-1]
         ):
-            return "Please enter a valid email address.", 400
+            return render_template(
+                "register.html",
+                error="Please enter a valid email address."
+            ), 400
 
-        # Validate password length
+        # Validate password
         if len(password) < 8:
-            return "Password must contain at least 8 characters.", 400
+            return render_template(
+                "register.html",
+                error="Password must contain at least 8 characters."
+            ), 400
 
         password_hash = generate_password_hash(password)
         conn = get_db_connection()
 
         try:
+            # Check existing email
+            existing_user = conn.execute(
+                "SELECT user_id FROM user WHERE email = ?",
+                (email,)
+            ).fetchone()
+
+            if existing_user:
+                return render_template(
+                    "register.html",
+                    error="This email is already registered. Please log in."
+                ), 400
+
             cursor = conn.execute(
                 """
                 INSERT INTO user (name, email, password_hash, role)
@@ -117,16 +108,21 @@ def register():
             user_id = cursor.lastrowid
             conn.commit()
 
-        except Exception:
+        except Exception as e:
             conn.rollback()
             app.logger.exception("Registration failed")
 
+            error_text = str(e).lower()
+
+            if "unique" in error_text or "duplicate" in error_text:
+                return render_template(
+                    "register.html",
+                    error="This email is already registered. Please log in."
+                ), 400
+
             return render_template(
                 "error.html",
-                message=(
-                    "Registration failed because of a server error. "
-                    "Please try again later."
-                )
+                message="Registration failed. Please try again later."
             ), 500
 
         finally:
@@ -140,6 +136,60 @@ def register():
         return redirect(url_for("dashboard"))
 
     return render_template("register.html")
+
+
+# -----------------------------------
+# LOGIN USER
+# -----------------------------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if session.get("user_id"):
+        if str(session.get("role", "")).lower() == "admin":
+            return redirect(url_for("admin_dashboard"))
+        return redirect(url_for("dashboard"))
+
+    if request.method == "POST":
+
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+
+        if not email or not password:
+            return render_template(
+                "login.html",
+                error="Please enter both email and password."
+            ), 400
+
+        conn = get_db_connection()
+
+        try:
+            user = conn.execute(
+                "SELECT * FROM user WHERE email = ?",
+                (email,)
+            ).fetchone()
+        finally:
+            conn.close()
+
+        if user and check_password_hash(
+            user["password_hash"], password
+        ):
+
+            session["user_id"] = user["user_id"]
+            session["user_name"] = user["name"]
+            session["role"] = user["role"]
+
+            if str(user["role"]).lower() == "admin":
+                return redirect(url_for("admin_dashboard"))
+
+            return redirect(url_for("dashboard"))
+
+        return render_template(
+            "login.html",
+            error="Invalid email or password. Please try again."
+        ), 401
+
+    return render_template("login.html")
+
 
 # -----------------------------------
 # ADMIN DASHBOARD

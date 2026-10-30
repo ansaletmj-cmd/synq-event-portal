@@ -405,6 +405,10 @@
             </p>
 
             <form method="POST">
+
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                 <div class="form-group">

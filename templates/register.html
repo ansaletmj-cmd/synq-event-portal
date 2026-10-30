@@ -208,6 +208,15 @@
                 font-size: 31px;
             }
         }
+        .error-message {
+    color: #d93025;
+    background: #fde8e7;
+    border: 1px solid #f5c2c0;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 9px;
+    font-size: 15px;
+}
     </style>
 </head>
 
@@ -232,6 +241,11 @@
             </p>
 
             <form method="POST">
+
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                 <div class="form-group">
