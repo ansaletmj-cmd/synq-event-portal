@@ -48,90 +48,84 @@ def register():
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
 
-        # Validate required fields
         if not name or not email or not password:
-            return render_template(
-                "register.html",
-                error="All fields are required."
-            ), 400
+            return render_template("register.html",
+                                   error="All fields are required."), 400
 
-        # Validate name length
         if len(name) > 100:
-            return render_template(
-                "register.html",
-                error="Name must be 100 characters or fewer."
-            ), 400
+            return render_template("register.html",
+                                   error="Name must be 100 characters or fewer."), 400
 
-        # Validate email
-        if (
-            "@" not in email
-            or email.startswith("@")
-            or email.endswith("@")
-            or "." not in email.split("@")[-1]
-        ):
-            return render_template(
-                "register.html",
-                error="Please enter a valid email address."
-            ), 400
+        if ("@" not in email or email.startswith("@")
+                or email.endswith("@") or "." not in email.split("@")[-1]):
+            return render_template("register.html",
+                                   error="Please enter a valid email address."), 400
 
-        # Validate password
         if len(password) < 8:
-            return render_template(
-                "register.html",
-                error="Password must contain at least 8 characters."
-            ), 400
+            return render_template("register.html",
+                                   error="Password must contain at least 8 characters."), 400
 
-        password_hash = generate_password_hash(password)
         conn = get_db_connection()
 
         try:
-            # Check existing email
             existing_user = conn.execute(
-                "SELECT user_id FROM user WHERE email = ?",
+                'SELECT user_id, name, password_hash, role FROM "user" WHERE email = ?',
                 (email,)
             ).fetchone()
 
+            # If the first form submission already created the account,
+            # allow the same user to continue instead of showing a false error.
             if existing_user:
+                if (
+                    existing_user["role"] == "Student"
+                    and check_password_hash(
+                        existing_user["password_hash"], password
+                    )
+                ):
+                    session["user_id"] = existing_user["user_id"]
+                    session["user_name"] = existing_user["name"]
+                    session["role"] = "Student"
+                    return redirect(url_for("dashboard"))
+
                 return render_template(
                     "register.html",
                     error="This email is already registered. Please log in."
                 ), 400
 
-            cursor = conn.execute(
+            password_hash = generate_password_hash(password)
+
+            conn.execute(
                 """
-                INSERT INTO user (name, email, password_hash, role)
+                INSERT INTO "user" (name, email, password_hash, role)
                 VALUES (?, ?, ?, ?)
                 """,
                 (name, email, password_hash, "Student")
             )
 
-            user_id = cursor.lastrowid
+            new_user = conn.execute(
+                'SELECT user_id FROM "user" WHERE email = ?',
+                (email,)
+            ).fetchone()
+
             conn.commit()
 
-        except Exception as e:
+            if not new_user:
+                raise RuntimeError("Could not retrieve the new account ID.")
+
+            session["user_id"] = new_user["user_id"]
+            session["user_name"] = name
+            session["role"] = "Student"
+
+        except Exception:
             conn.rollback()
             app.logger.exception("Registration failed")
-
-            error_text = str(e).lower()
-
-            if "unique" in error_text or "duplicate" in error_text:
-                return render_template(
-                    "register.html",
-                    error="This email is already registered. Please log in."
-                ), 400
-
             return render_template(
                 "error.html",
-                message="Registration failed. Please try again later."
+                message="Registration failed. Please try again."
             ), 500
 
         finally:
             conn.close()
-
-        # Automatically log in the new student
-        session["user_id"] = user_id
-        session["user_name"] = name
-        session["role"] = "Student"
 
         return redirect(url_for("dashboard"))
 
@@ -911,3 +905,4 @@ def notifications():
 # -----------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
+
