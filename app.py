@@ -242,34 +242,33 @@ def admin_participants():
     conn = get_db_connection()
 
     try:
-        participants = conn.execute("""
-            SELECT
-                registration.registration_id,
-                registration.phone,
-                registration.department,
-                registration.year_of_study,
-                registration.class_division,
-                registration.status,
-                registration.registered_at,
-                user.name,
-                user.email,
-                event.title AS event_title,
-                event.date AS event_date
-            FROM registration
-            JOIN user
-                ON registration.user_id = user.user_id
-            JOIN event
-                ON registration.event_id = event.event_id
-            ORDER BY event.date ASC, user.name ASC
-        """).fetchall()
+      participants = conn.execute("""
+    SELECT
+        registration.registration_id,
+        registration.phone,
+        registration.department,
+        registration.year_of_study,
+        registration.class_division,
+        registration.status,
+        registration.registered_at,
+        "user".name AS user_name,
+        "user".email AS user_email,
+        event.title AS event_title,
+        event.date AS event_date
+    FROM registration
+    JOIN "user"
+        ON registration.user_id = "user".user_id
+    JOIN event
+        ON registration.event_id = event.event_id
+    ORDER BY event.date ASC, "user".name ASC
+""").fetchall()
 
-        return render_template(
+    return render_template(
             "admin_participants.html",
             participants=participants
         )
-
-    finally:
-        conn.close()
+finally:
+     conn.close()
 
 # -----------------------------------
 # STUDENT DASHBOARD
