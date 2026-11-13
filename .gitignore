@@ -8,4 +8,5 @@ instance/
 college_events.db
 *.sqlite
 *.sqlite3
-
+.env.*
+!.env.example
