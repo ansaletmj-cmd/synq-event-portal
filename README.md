@@ -77,17 +77,6 @@ The application uses three main entities:
 A user can have multiple registrations, and an event
 can have multiple registrations.
 
-## 📸 Screenshots
-
-Add your actual application screenshots here.
-
-| Page | Screenshot |
-|---|---|
-| Login Page | Add screenshot |
-| Student Dashboard | Add screenshot |
-| Event Management | Add screenshot |
-| Registration Page | Add screenshot |
-| Admin Participants | Add screenshot |
 
 ## 🚀 Live Application
 
